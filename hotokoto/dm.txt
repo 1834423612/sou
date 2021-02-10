@@ -1,0 +1,27 @@
+<div id="quotes" class="quotes"></div>
+
+js:
+var txtUrl = "./js/quotes.txt";        // 一言文本本件(TXT)位置
+window.onload = function(){
+	getQuotesTxt( 'quotes', txtUrl);       // 获取一言
+	window.setInterval( "getQuotesTxt( 'quotes', txtUrl)", 5000);    // 加个定时器自动刷新
+}
+
+// Text 文本文件中随机获取一行
+function getQuotesTxt( id, url) {
+	var i = 0,
+		resultTxt = "",
+		resultArr = [];
+		
+	if( !url ) { return "TXT 文件路径未设置！"}
+	x = fetch(url)
+	.then(function(response) {
+		return response.text();
+	})
+	.then(function(text) {
+		resultArr = text.toString().split(/[\n]/);          
+		i = Math.floor( Math.random()*resultArr.length );
+		resultTxt = resultArr[i];                         
+		document.getElementById( id ).innerHTML = resultTxt;
+	});
+}
